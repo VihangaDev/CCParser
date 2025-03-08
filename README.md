@@ -23,6 +23,9 @@ CCParser is a powerful Python library designed for credit card parsing, validati
 - **PyPI Ready**: Structured for publishing on PyPI.
 - **Easy Installation**: Includes `setup.py` or `pyproject.toml` for easy installation.
 - **CI/CD Testing**: Uses GitHub Actions for CI/CD testing.
+- **Get Expiry Year**: Retrieves the expiry year of the card.
+- **Get Expiry Month**: Retrieves the expiry month of the card.
+- **Get Card Details**: Fetches detailed information about the card from an external API.
 
 ## Supported Card Types
 
@@ -59,6 +62,9 @@ print(card.get_cvv())  # 123
 print(card.is_valid())  # True
 print(card.get_card_type())  # Visa
 print(card.get_masked_number())  # **** **** **** 1111
+print(card.get_year())  # 2030
+print(card.get_month())  # 12
+print(card.get_card_details())  # Detailed card information
 ```
 
 ## CLI Usage
