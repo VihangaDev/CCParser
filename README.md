@@ -23,6 +23,11 @@ CCParser is a robust and efficient Python library designed for seamless credit c
 - **📖 Well-Documented:** Extensive Markdown documentation (`README.md`).
 - **📦 PyPI Ready:** Structured for easy PyPI distribution.
 - **🛠️ CI/CD Integration:** Uses GitHub Actions for automated testing.
+<<<<<<< HEAD
+=======
+- **🆕 Card Number Generation:** Generate valid card numbers for testing purposes.
+- **🆕 Additional Card Types:** Supports JCB, Diners Club, and UnionPay.
+>>>>>>> 43067d2 (feat: Add support for additional card types, card number generation, and flexible expiry date formatting)
 
 ---
 
@@ -84,8 +89,22 @@ print(card.get_month())  # 12
 print(card.get_card_details())  # Detailed card information
 ```
 
+<<<<<<< HEAD
 ### CLI Tool
 
+=======
+### Card Number Generation
+
+```python
+from ccparser.generator import generate_card_number
+
+print(generate_card_number("Visa"))  # Generates a valid Visa card number
+print(generate_card_number("MasterCard"))  # Generates a valid MasterCard number
+```
+
+### CLI Tool
+
+>>>>>>> 43067d2 (feat: Add support for additional card types, card number generation, and flexible expiry date formatting)
 CCParser can also be used via the command line:
 
 ```bash
@@ -121,4 +140,8 @@ For any inquiries or issues, feel free to reach out:
 
 ---
 
+<<<<<<< HEAD
 CCParser – Simplifying credit card parsing, one line at a time! 🚀
+=======
+CCParser – Simplifying credit card parsing, one line at a time! 🚀
+>>>>>>> 43067d2 (feat: Add support for additional card types, card number generation, and flexible expiry date formatting)

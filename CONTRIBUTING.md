@@ -61,4 +61,8 @@ If you find a bug or have a feature request, please [open an issue](https://gith
 
 ## 🏆 Thank You!
 
+<<<<<<< HEAD
 Your contributions help improve CCParser and make it better for everyone. Thank you for your support! 🚀
+=======
+Your contributions help improve CCParser and make it better for everyone. Thank you for your support! 🚀
+>>>>>>> 43067d2 (feat: Add support for additional card types, card number generation, and flexible expiry date formatting)

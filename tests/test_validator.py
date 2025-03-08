@@ -8,6 +8,7 @@ def test_validate_card_number():
 def test_validate_expiry_date():
     assert validate_expiry_date("12", "2030") == True
     assert validate_expiry_date("04", "2020") == False
+    assert validate_expiry_date("12", "2022") == True  # Edge case: current month and year
 
 def test_validate_cvv():
     assert validate_cvv("123", "4111111111111111") == True
