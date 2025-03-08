@@ -11,6 +11,7 @@ def validate_card_number(card_number):
         checksum = sum(odd_digits)
         for d in even_digits:
             checksum += sum(digits_of(d * 2))
+        print(f"Card Number: {card_number}, Checksum: {checksum}")  # Debug print
         return checksum % 10
     
     return luhn_checksum(card_number) == 0
