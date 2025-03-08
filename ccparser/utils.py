@@ -14,7 +14,8 @@ def detect_card_type(card_number):
     return "Unknown"
 
 def get_card_details(card_number):
-    url = f'https://lookup.binlist.net/{card_number}'
+    bin_number = card_number[:6]
+    url = f'https://lookup.binlist.net/{bin_number}'
     headers = {
         'User-Agent': 'Mozilla/5.0',
         'Accept': 'application/json'
@@ -30,7 +31,7 @@ def get_card_details(card_number):
             'emoji': data.get('country', {}).get('emoji', ''),
             'scheme': data.get('scheme', 'Unknown'),
             'type': data.get('type', 'Unknown'),
-            'currency': data.get('currency', 'Unknown'),
+            'currency': data.get('country', {}).get('currency', 'Unknown'),
             'bin': 'Credit' if data.get('type') == 'credit' else 'Debit'
         }
         return card_details
