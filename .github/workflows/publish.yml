@@ -1,4 +1,3 @@
-// filepath: .github/workflows/publish.yml
 name: Publish Python Package
 
 on:
