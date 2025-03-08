@@ -2,6 +2,7 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
+*.bat
 *.egg-info/
 dist/
 build/
