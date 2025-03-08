@@ -20,7 +20,7 @@ def validate_expiry_date(month: str, year: str) -> bool:
     expiry_date = datetime.datetime(int(year), int(month), 1)
     last_day_of_month = (expiry_date.replace(month=expiry_date.month % 12 + 1, day=1) - datetime.timedelta(days=1)).day
     expiry_date = expiry_date.replace(day=last_day_of_month)
-    return expiry_date >= now
+    return expiry_date >= now.replace(day=1)
 
 def validate_cvv(cvv: str, card_number: str) -> bool:
     card_type = detect_card_type(card_number)
