@@ -15,7 +15,7 @@ setup(
     author="Vihanga Indusara",
     author_email="vihangadev@gmail.com",
     description="A library for credit card parsing, validation, and formatting",
-    long_description=open('README.md').read(),
+    long_description=open('README.md', encoding='utf-8').read(),
     long_description_content_type='text/markdown',
     url="https://github.com/VihangaDev/CCParser",
     classifiers=[
