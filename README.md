@@ -28,6 +28,30 @@ CCParser is a robust and efficient Python library designed for seamless credit c
 
 ---
 
+## ⚠️ Disclaimer
+
+**This library is intended for educational and legitimate purposes only.**
+
+CCParser is designed to assist developers in:
+
+- Building payment processing systems
+- Testing and validating payment integrations
+- Educational purposes and learning about payment card industry standards
+- Fraud detection and prevention systems
+
+**Prohibited Uses:**
+
+- Unauthorized access to financial systems or data
+- Credit card fraud, carding, or any form of financial crime
+- Harvesting, storing, or processing stolen card information
+- Any activity that violates applicable laws or regulations
+
+By using this library, you agree to comply with all applicable laws, including but not limited to PCI-DSS standards, and take full responsibility for your use of this software. The author(s) are not responsible for any misuse or illegal activities conducted with this tool.
+
+**If you suspect fraudulent activity, please report it to your local authorities.**
+
+---
+
 ## 💳 Supported Card Types
 
 CCParser recognizes and validates multiple card providers:

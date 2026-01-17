@@ -1,3 +1,99 @@
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "CCParser"
+version = "1.0.0"
+description = "A powerful library for credit card parsing, validation, and formatting"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Vihanga Indusara", email = "vihangadev@gmail.com"}
+]
+maintainers = [
+    {name = "Vihanga Indusara", email = "vihangadev@gmail.com"}
+]
+keywords = [
+    "credit-card",
+    "parser",
+    "validation",
+    "luhn",
+    "payment",
+    "visa",
+    "mastercard",
+    "amex",
+    "formatting"
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Office/Business :: Financial",
+    "Typing :: Typed"
+]
+requires-python = ">=3.10"
+
+[project.optional-dependencies]
+api = ["requests>=2.25.0"]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "flake8>=6.0.0",
+    "mypy>=1.0.0",
+    "black>=23.0.0",
+    "isort>=5.12.0"
+]
+all = ["CCParser[api,dev]"]
+
+[project.scripts]
+ccparser = "ccparser.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/VihangaDev/CCParser"
+Documentation = "https://github.com/VihangaDev/CCParser#readme"
+Repository = "https://github.com/VihangaDev/CCParser.git"
+Issues = "https://github.com/VihangaDev/CCParser/issues"
+Changelog = "https://github.com/VihangaDev/CCParser/blob/master/CHANGELOG.md"
+
+[tool.setuptools]
+packages = ["ccparser"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+
+[tool.black]
+line-length = 100
+target-version = ["py310", "py311", "py312"]
+
+[tool.isort]
+profile = "black"
+line_length = 100
+
+[tool.coverage.run]
+source = ["ccparser"]
+omit = ["tests/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError"
+]
