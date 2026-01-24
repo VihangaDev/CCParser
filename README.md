@@ -13,6 +13,7 @@ CCParser is a robust and efficient Python library designed for seamless credit c
 - Smart extraction of card number, expiry date, and CVV from many formats
 - Heuristic parser for messy input (labels, mixed delimiters, extra text)
 - Strict mode to reject extra fields or trailing text
+- Parse-time CVV length validation (3 or 4 digits)
 - Luhn validation and expiry validation helpers
 - CVV validation with card-type awareness
 - Card type detection across 20 major networks
@@ -121,7 +122,8 @@ print(card.get_month())            # 12
 
 ### Strict Mode
 
-Strict mode rejects extra fields or trailing text:
+Strict mode rejects extra fields or trailing text. Use it when you want
+only the card fields and nothing else (no names, addresses, or notes):
 
 ```python
 from ccparser import CCParser
