@@ -24,7 +24,7 @@ from .validator import validate_card_number, validate_expiry_date, validate_cvv
 from .formatter import format_card_number, mask_card_number
 from .utils import detect_card_type, get_card_details, CARD_TYPE_PATTERNS
 
-__version__ = "2.0.0"
+__version__ = "2.0.1"
 __author__ = "Vihanga Indusara"
 __email__ = "vihangadev@gmail.com"
 
