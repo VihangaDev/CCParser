@@ -5,6 +5,7 @@ Usage:
     ccparser "4111111111111111|12|2030|123"
     ccparser --masked "4111111111111111|12|2030|123"
     ccparser --json "4111111111111111|12|2030|123"
+    ccparser --strict "4111111111111111|12|2030|123"
 """
 
 import argparse
@@ -53,6 +54,12 @@ def main() -> int:
     )
 
     parser.add_argument(
+        "-s", "--strict",
+        action="store_true",
+        help="Reject extra fields or trailing text"
+    )
+
+    parser.add_argument(
         "-v", "--version",
         action="version",
         version=f"%(prog)s {__version__}"
@@ -61,7 +68,7 @@ def main() -> int:
     args = parser.parse_args()
 
     try:
-        card = CCParser(args.card_string)
+        card = CCParser(args.card_string, strict=args.strict)
 
         # Quiet mode - just validate and exit
         if args.quiet:

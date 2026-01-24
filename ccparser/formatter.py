@@ -32,15 +32,15 @@ def format_card_number(card_number: str, separator: str = " ") -> str:
     # Clean any existing formatting
     clean_number = "".join(c for c in card_number if c.isdigit())
 
-    # AMEX format: 4-6-5
+    # AMEX / UATP format: 4-6-5 (15 digits)
     if len(clean_number) == 15:
         return f"{clean_number[:4]}{separator}{clean_number[4:10]}{separator}{clean_number[10:]}"
 
-    # Diners Club format: 4-6-4
+    # Diners Club format: 4-6-4 (14 digits)
     if len(clean_number) == 14:
         return f"{clean_number[:4]}{separator}{clean_number[4:10]}{separator}{clean_number[10:]}"
 
-    # Standard format: groups of 4
+    # Standard format: groups of 4 (works for 12-19 digit cards)
     return separator.join(clean_number[i:i+4] for i in range(0, len(clean_number), 4))
 
 
@@ -79,7 +79,7 @@ def mask_card_number(card_number: str, visible_digits: int = 4) -> str:
     # Get the visible portion
     visible_part = clean_number[-visible_digits:]
 
-    # AMEX format: 4-6-5 with last 4 visible (1 masked in last group)
+    # AMEX/UATP format: 4-6-5 with last 4 visible (1 masked in last group)
     if length == 15:
         return f"**** ****** *{visible_part}"
 
@@ -90,6 +90,18 @@ def mask_card_number(card_number: str, visible_digits: int = 4) -> str:
     # Standard 16-digit format
     if length == 16:
         return f"**** **** **** {visible_part}"
+
+    # 19-digit format (Visa, UnionPay, Maestro, JCB, Verve)
+    if length == 19:
+        return f"**** **** **** ***{visible_part}"
+
+    # 18-digit format
+    if length == 18:
+        return f"**** **** **** **{visible_part}"
+
+    # 13-digit format (old Visa)
+    if length == 13:
+        return f"**** **** *{visible_part}"
 
     # Generic fallback for other lengths
     masked_length = length - visible_digits

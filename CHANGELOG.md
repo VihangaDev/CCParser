@@ -5,6 +5,28 @@ All notable changes to CCParser will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2026-01-24
+
+### Added
+
+- Multi-strategy parsing (labeled, single-line, heuristic)
+- Heuristic extraction for messy or unstructured input
+- Strict mode to reject extra fields or trailing text
+- Support for year-first expiry formats (YYYY/MM)
+- Expanded card type detection to 20 networks
+- CLI strict flag (`--strict`)
+
+### Changed
+
+- Parsing now normalizes uncommon delimiters before extraction
+- Labeled parsing validates candidate card numbers with Luhn
+- CVV length is validated at parse time (must be 3 or 4 digits)
+
+### Fixed
+
+- Detection of merged expiry+CVV digit blobs
+- Date normalization for ambiguous month/year inputs
+
 ## [1.0.0] - 2026-01-17
 
 ### Added

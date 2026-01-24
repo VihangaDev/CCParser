@@ -91,6 +91,7 @@ class TestCLI:
         assert "usage" in result.stdout.lower()
         assert "--masked" in result.stdout
         assert "--json" in result.stdout
+        assert "--strict" in result.stdout
 
     def test_exit_code_valid_card(self):
         """Test exit code is 0 for valid card."""
@@ -119,3 +120,12 @@ class TestCLI:
         )
         assert "Card Type: AMEX" in result.stdout
         assert "3782 822463 10005" in result.stdout
+
+    def test_strict_mode_rejects_trailing_text(self):
+        """Test strict mode rejects trailing text."""
+        result = subprocess.run(
+            [sys.executable, "-m", "ccparser.cli", "--strict", "4111111111111111|12|30|123 extra"],
+            capture_output=True,
+            text=True
+        )
+        assert result.returncode == 1

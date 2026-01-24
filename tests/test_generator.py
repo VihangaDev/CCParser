@@ -28,7 +28,12 @@ class TestGenerateCardNumber:
         """Test generating MasterCard."""
         card_number = generate_card_number("MasterCard")
         assert len(card_number) == 16
-        assert card_number[0:2] in ["51", "52", "53", "54", "55"]
+        # Legacy 51-55 or 2-series 2221-2720
+        prefix_2 = card_number[0:2]
+        prefix_4 = card_number[0:4]
+        valid_legacy = prefix_2 in ["51", "52", "53", "54", "55"]
+        valid_2series = 2221 <= int(prefix_4) <= 2720
+        assert valid_legacy or valid_2series
         assert validate_card_number(card_number) is True
 
     def test_generate_amex(self):
@@ -60,7 +65,7 @@ class TestGenerateCardNumber:
         """Test generating UnionPay card."""
         card_number = generate_card_number("UnionPay")
         assert len(card_number) == 16
-        assert card_number.startswith("62")
+        assert card_number.startswith("62") or card_number.startswith("81")
         assert validate_card_number(card_number) is True
 
     def test_unsupported_card_type_raises(self):
@@ -100,7 +105,12 @@ class TestGetSupportedCardTypes:
     def test_contains_expected_types(self):
         """Test that all expected card types are included."""
         result = get_supported_card_types()
-        expected = ["AMEX", "Diners Club", "Discover", "JCB", "MasterCard", "UnionPay", "Visa"]
+        expected = sorted([
+            "AMEX", "Dankort", "Diners Club", "Discover", "Elo", "Humo",
+            "InstaPayment", "InterPayment", "JCB", "LankaPay", "Maestro",
+            "MasterCard", "Mir", "RuPay", "Troy", "UATP", "UnionPay",
+            "UzCard", "Verve", "Visa", "Visa Electron",
+        ])
         assert result == expected
 
     def test_list_is_sorted(self):
