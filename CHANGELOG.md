@@ -11,10 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Multi-strategy parsing (labeled, single-line, heuristic)
 - Heuristic extraction for messy or unstructured input
-- Strict mode to reject extra fields or trailing text
 - Support for year-first expiry formats (YYYY/MM)
 - Expanded card type detection to 20 networks
-- CLI strict flag (`--strict`)
 
 ### Changed
 

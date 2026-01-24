@@ -49,9 +49,6 @@ class CCParser:
         - 4111111111111111:12:2030:123
         - Labeled/multi-line formats (Exp/CVV labels)
 
-    Strict mode:
-        - If strict=True, rejects extra fields or trailing text.
-
     Attributes:
         card_number: The extracted card number.
         expiry_month: The expiry month (01-12).
@@ -68,13 +65,12 @@ class CCParser:
         True
     """
 
-    def __init__(self, card_string: str, strict: bool = False):
+    def __init__(self, card_string: str):
         """
         Initialize CCParser with a card string.
 
         Args:
             card_string: The credit card string to parse.
-            strict: If True, reject extra fields or trailing text.
 
         Raises:
             InvalidCardNumberError: If the card string format is invalid.
@@ -84,13 +80,11 @@ class CCParser:
             raise InvalidCardNumberError("Card string cannot be empty")
 
         self.card_string = card_string.strip()
-        self.strict = strict
         self.card_number, self.expiry_month, self.expiry_year, self.cvv = self._parse_card_string(
             self.card_string,
-            strict=self.strict,
         )
 
-    def _parse_card_string(self, card_string: str, strict: bool = False) -> tuple[str, str, str, str]:
+    def _parse_card_string(self, card_string: str) -> tuple[str, str, str, str]:
         """
         Parse the card string into its components.
 
@@ -121,19 +115,14 @@ class CCParser:
         card_string = re.sub(r"[;=~#_\(\)\[\]\{\},]+", " ", card_string).strip()
 
         # Strategy 1: Try multi-line/labeled format parsing
-        parsed = self._parse_labeled_format(card_string, strict=strict)
+        parsed = self._parse_labeled_format(card_string)
         if parsed:
             card_number, expiry_month, expiry_year, cvv = parsed
         else:
             # Strategy 2: Single-line format parsing
             try:
-                card_number, expiry_month, expiry_year, cvv = self._parse_single_line(
-                    card_string,
-                    strict=strict,
-                )
+                card_number, expiry_month, expiry_year, cvv = self._parse_single_line(card_string)
             except (InvalidCardNumberError, InvalidExpiryDateError):
-                if strict:
-                    raise
                 # Strategy 3: Heuristic extraction (handles any format)
                 result = self._extract_heuristic(card_string)
                 if result:
@@ -161,11 +150,7 @@ class CCParser:
 
         return card_number, expiry_month, expiry_year, cvv
 
-    def _parse_labeled_format(
-        self,
-        raw: str,
-        strict: bool = False,
-    ) -> Optional[tuple[str, str, str, str]]:
+    def _parse_labeled_format(self, raw: str) -> Optional[tuple[str, str, str, str]]:
         """
         Parse multi-line or labeled card formats.
 
@@ -220,13 +205,6 @@ class CCParser:
                 if month_str and year_str:
                     if not (card_match and cvv_match):
                         return None
-                    if strict and not self._strict_labeled_ok(
-                        raw,
-                        card_match,
-                        exp_match_merged,
-                        cvv_match,
-                    ):
-                        return None
                     return (
                         card_match.group(0),
                         month_str,
@@ -237,9 +215,6 @@ class CCParser:
         if not (card_match and cvv_match and exp_match):
             return None
 
-        if strict and not self._strict_labeled_ok(raw, card_match, exp_match, cvv_match):
-            return None
-
         return (
             card_match.group(0),
             exp_match.group(1),
@@ -247,56 +222,7 @@ class CCParser:
             cvv_match.group(1),
         )
 
-    def _strict_labeled_ok(
-        self,
-        raw: str,
-        card_match: re.Match[str],
-        exp_match: re.Match[str],
-        cvv_match: re.Match[str],
-    ) -> bool:
-        """
-        Strict mode validation for labeled formats.
-
-        Rejects any extra fields or trailing text beyond card/expiry/CVV labels.
-        """
-        cleaned = raw
-        for match in (card_match, exp_match, cvv_match):
-            start, end = match.span()
-            cleaned = cleaned[:start] + (" " * (end - start)) + cleaned[end:]
-
-        # Allow common labels for card number, expiry, and CVV
-        allowed_words = {
-            "cc",
-            "card",
-            "number",
-            "exp",
-            "expiry",
-            "expire",
-            "expires",
-            "expired",
-            "date",
-            "valid",
-            "thru",
-            "good",
-            "cvv",
-            "cvc",
-            "ccv",
-            "cid",
-            "sec",
-            "security",
-            "code",
-        }
-
-        def _strip_allowed_words(match: re.Match[str]) -> str:
-            word = match.group(0).lower()
-            return " " if word in allowed_words else match.group(0)
-
-        cleaned = re.sub(r"[A-Za-z]+", _strip_allowed_words, cleaned)
-
-        # If anything alphanumeric remains, it's extra data
-        return re.search(r"[A-Za-z0-9]", cleaned) is None
-
-    def _parse_single_line(self, card_string: str, strict: bool = False) -> tuple[str, str, str, str]:
+    def _parse_single_line(self, card_string: str) -> tuple[str, str, str, str]:
         """
         Parse single-line card formats with various delimiters.
 
@@ -329,7 +255,7 @@ class CCParser:
         # Delimiter character class used across patterns
         # Includes: | : / - ; = ~ # _ and whitespace
         _D = r"[|:\s/\-;=~#_]"
-        tail = r"$" if strict else rf"(?:{_D}.*)?$"
+        tail = rf"(?:{_D}.*)?$"
 
         # Pattern A0: YYYY/MM followed by delimiter and CVV (year-first format)
         # e.g., "2030/12 123" or "2030-12|123"

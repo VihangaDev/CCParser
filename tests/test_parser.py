@@ -843,33 +843,3 @@ class TestCCParserHeuristic:
         assert card.get_year() == "2030"
         assert card.get_cvv() == "123"
 
-
-class TestCCParserStrict:
-    """Tests for strict parsing mode."""
-
-    def test_strict_accepts_clean_format(self):
-        """Test strict mode accepts clean, delimiter-only input."""
-        card = CCParser("4111111111111111|12|30|123", strict=True)
-        assert card.get_number() == "4111111111111111"
-        assert card.get_month() == "12"
-        assert card.get_year() == "2030"
-        assert card.get_cvv() == "123"
-
-    def test_strict_accepts_clean_labeled(self):
-        """Test strict mode accepts labeled input without extra fields."""
-        card_str = "4111111111111111\nExp: 12/30\nCVV: 123"
-        card = CCParser(card_str, strict=True)
-        assert card.get_number() == "4111111111111111"
-        assert card.get_month() == "12"
-        assert card.get_year() == "2030"
-        assert card.get_cvv() == "123"
-
-    def test_strict_rejects_trailing_text(self):
-        """Test strict mode rejects trailing text."""
-        with pytest.raises(InvalidCardNumberError):
-            CCParser("4111111111111111|12|30|123 - John Doe", strict=True)
-
-    def test_strict_rejects_extra_fields(self):
-        """Test strict mode rejects extra fields."""
-        with pytest.raises(InvalidCardNumberError):
-            CCParser("4111111111111111|12|30|123|extra", strict=True)
